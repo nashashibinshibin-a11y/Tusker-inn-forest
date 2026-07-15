@@ -1,0 +1,2135 @@
+/* ==========================================================================
+   TUSKER INN FOREST LODGE - CSS DESIGN SYSTEM
+   Inspired by Aman Resorts & Six Senses
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color Palette */
+  --forest-green: #20352A;
+  --deep-charcoal: #141414;
+  --warm-ivory: #F6F3EE;
+  --soft-gold: #D4B26A;
+  
+  /* Semi-transparent variations */
+  --white-overlay: rgba(255, 255, 255, 0.15);
+  --white-overlay-hover: rgba(255, 255, 255, 0.25);
+  --dark-overlay: rgba(20, 20, 20, 0.45);
+  
+  /* Typography */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  
+  /* Animation Timing */
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-medium: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Base Styles
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--deep-charcoal);
+  color: var(--warm-ivory);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  overflow-x: clip; /* Clip horizontal overflow without creating nested scroll parents */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. Preloader Screen
+   -------------------------------------------------------------------------- */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--deep-charcoal);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s;
+}
+
+.preloader-content {
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.preloader-title {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  color: var(--warm-ivory);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(15px);
+  animation: preloaderReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.preloader-subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--soft-gold);
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: preloaderReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(246, 243, 238, 0.1);
+  margin-bottom: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background-color: var(--soft-gold);
+  transition: width 0.1s linear;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  color: rgba(246, 243, 238, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes preloaderReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Scroll Track & Sticky Viewport Container
+   -------------------------------------------------------------------------- */
+.scroll-track {
+  height: 400vh; /* Smooth scrolling workspace duration */
+  position: relative;
+  width: 100%;
+}
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Background Canvas */
+#hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  background-color: var(--deep-charcoal);
+}
+
+/* --------------------------------------------------------------------------
+   5. Visual Overlays (Gradient & Vignette)
+   -------------------------------------------------------------------------- */
+.forest-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  /* Reduced visual weight gradient overlay - 22% to 32% opacity to let photography shine */
+  background: linear-gradient(180deg, 
+    rgba(32, 53, 42, 0.22) 0%, 
+    rgba(20, 20, 20, 0.32) 100%
+  );
+  pointer-events: none;
+}
+
+.vignette-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  /* Even subtler vignette at 40% maximum at the very edges */
+  background: radial-gradient(
+    circle, 
+    rgba(0, 0, 0, 0) 50%, 
+    rgba(20, 20, 20, 0.40) 100%
+  );
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Navigation Bar (Aman Inspired Minimal Glassmorphic)
+   -------------------------------------------------------------------------- */
+.navbar {
+  position: fixed; /* Sticky fixed header so it stays on screen when scrolling and transitions nicely */
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 2.5rem 5rem;
+  display: flex; /* Flexbox alignment centered */
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  transition: padding var(--transition-smooth), background var(--transition-smooth), border-color var(--transition-smooth);
+}
+
+/* Scrolled state: flat dark charcoal overlay for maximum readability without glassmorphism */
+.navbar.scrolled {
+  padding: 1.25rem 5rem;
+  background: rgba(20, 20, 20, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+  transition: opacity var(--transition-medium);
+}
+
+.logo-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem; /* Sized to match luxury print guidelines */
+  letter-spacing: 0.12em;
+  font-weight: 300;
+  color: var(--warm-ivory);
+  text-transform: uppercase;
+}
+
+.logo-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.38em;
+  font-weight: 500;
+  color: var(--soft-gold);
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+.logo-link:hover {
+  opacity: 0.8;
+}
+
+/* Flex group on the right side containing both links and CTA button, enforcing perfect baseline alignment */
+.nav-right-group {
+  display: flex;
+  align-items: center;
+  gap: 3rem; /* 48px gap between Contact menu item and the Reserve button */
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 3rem; /* 48px equal gap between navigation items */
+  align-items: center;
+}
+
+.nav-item {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.25em; /* Refined letter spacing */
+  color: var(--warm-ivory);
+  font-weight: 400;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1; /* Match vertical centers */
+  position: relative;
+  padding: 0.5rem 0;
+  transition: color var(--transition-medium);
+}
+
+/* Elegant Center-Expand Underline Hover Animation */
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background-color: var(--soft-gold);
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-item:hover {
+  color: var(--soft-gold);
+}
+
+.nav-item:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+}
+
+/* Redesigned CTA Button: Minimal border and solid flat transition, no glassmorphism backdrop blur */
+.btn-book {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: var(--warm-ivory);
+  padding: 0.65rem 1.6rem; /* Refined small padding */
+  border-radius: 50px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  line-height: 1; /* Match vertical baseline text centering */
+  transition: var(--transition-medium);
+  display: inline-block;
+}
+
+.btn-book:hover {
+  background: var(--warm-ivory);
+  border-color: var(--warm-ivory);
+  color: var(--forest-green);
+  transform: translateY(-2px);
+}
+
+.btn-book:active {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   7. Cinematic Hero Content & Staggered Reveal
+   -------------------------------------------------------------------------- */
+.hero-content {
+  position: absolute;
+  top: 45%; /* Placed slightly above vertical center (45% instead of 50%) */
+  left: 50%;
+  transform: translate(-50%, -41%); /* Slide up drift transition */
+  width: 90%;
+  max-width: 840px; /* Wider container for editorial layout */
+  z-index: 5;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 1.4s;
+}
+
+/* Content active state (triggered by scroll JS) */
+.hero-content.reveal-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -45%); /* Keep centered slightly higher than 50% */
+  pointer-events: auto;
+}
+
+.content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Animated Items Setup */
+.animate-item {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 1. Thin Gold Line */
+.divider-line {
+  width: 60px; /* Thinner for luxury feel */
+  height: 1px;
+  background-color: var(--soft-gold);
+  margin-bottom: 2.25rem; /* Generous spacing */
+}
+
+.reveal-active .divider-line {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+/* 2. Forest Lodge Label */
+.lodge-label {
+  font-size: 0.72rem; /* Smaller and more refined */
+  letter-spacing: 0.45em; /* Very generous letter spacing */
+  text-transform: uppercase;
+  color: var(--warm-ivory);
+  margin-bottom: 2.75rem; /* Generous spacing */
+  font-weight: 500;
+}
+
+.reveal-active .lodge-label {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+/* 3. Luxury Serif Title with staggered words */
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: 5rem; /* 80px on desktop (base 16px) */
+  font-weight: 300;
+  line-height: 1.1; /* Tighter line height for large serif headers */
+  color: var(--warm-ivory);
+  margin-bottom: 2.75rem; /* Generous spacing */
+  letter-spacing: -0.01em; /* Refined letter spacing */
+}
+
+.word-wrapper {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  margin-right: 0.25em;
+}
+
+.word {
+  display: inline-block;
+  transform: translateY(105%);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-active .word {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Stagger delays for title words: Where (1) Nature (2) Becomes (4) Home (5) */
+.reveal-active .word-wrapper:nth-child(1) .word { transition-delay: 0.5s; }
+.reveal-active .word-wrapper:nth-child(2) .word { transition-delay: 0.58s; }
+.reveal-active .word-wrapper:nth-child(4) .word { transition-delay: 0.66s; }
+.reveal-active .word-wrapper:nth-child(5) .word { transition-delay: 0.74s; }
+
+/* 4. Subtitle */
+.hero-subtitle {
+  font-size: 0.95rem; /* Sized down for editorial layout */
+  max-width: 600px; /* Locked at max 600px width */
+  color: var(--warm-ivory);
+  font-weight: 300;
+  line-height: 1.8;
+  margin-bottom: 3.75rem; /* Generous spacing */
+}
+
+.reveal-active .hero-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.0s;
+}
+
+/* 5. Buttons Container */
+.hero-buttons {
+  display: flex;
+  gap: 2rem; /* Spacing gap */
+  justify-content: center;
+  align-items: center;
+}
+
+.reveal-active .hero-buttons {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 1.2s;
+}
+
+/* Primary Button (Ivory pill) - Sized down ~20%, no glassmorphism */
+.btn-primary {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  background-color: var(--warm-ivory);
+  color: var(--forest-green);
+  padding: 0.75rem 1.6rem; /* Refined smaller padding */
+  border-radius: 50px;
+  border: 1px solid var(--warm-ivory);
+  transition: var(--transition-medium);
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background-color: var(--soft-gold);
+  border-color: var(--soft-gold);
+  color: var(--deep-charcoal);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* Secondary Button (Border only, transparent, no glassmorphism blur) */
+.btn-secondary {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  background-color: transparent;
+  color: var(--warm-ivory);
+  padding: 0.75rem 1.6rem; /* Refined smaller padding */
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: var(--transition-medium);
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--warm-ivory);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   8. Scroll Indicator & Mouse Icon
+   -------------------------------------------------------------------------- */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.8s;
+  opacity: 1;
+}
+
+.scroll-text {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(246, 243, 238, 0.5);
+  font-weight: 500;
+}
+
+.mouse-icon {
+  width: 20px;
+  height: 32px;
+  border: 1px solid rgba(246, 243, 238, 0.35);
+  border-radius: 12px;
+  position: relative;
+}
+
+.mouse-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--soft-gold);
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: mouseScroll 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes mouseScroll {
+  0% {
+    top: 6px;
+    opacity: 1;
+  }
+  50% {
+    top: 18px;
+    opacity: 0;
+  }
+  100% {
+    top: 6px;
+    opacity: 1;
+  }
+}
+
+/* Custom class to hide or shift scroll indicator when content is active */
+.scroll-indicator.hide {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 15px);
+}
+
+/* --------------------------------------------------------------------------
+   9. Responsive Design
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 1.5rem 2.5rem;
+  }
+  .navbar.scrolled {
+    padding: 1rem 2.5rem;
+  }
+  .logo-title {
+    font-size: 1.5rem;
+  }
+  .logo-subtitle {
+    font-size: 0.52rem;
+  }
+  .nav-menu {
+    gap: 2rem;
+  }
+  .hero-title {
+    font-size: 4rem;
+  }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   10. Redesigned About Us Section (Full-Width Editorial Centered Layout)
+   -------------------------------------------------------------------------- */
+.about-section {
+  background-color: #141715; /* Deep Forest Green */
+  padding: 220px 5rem; /* Exact padding as requested */
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.about-container {
+  width: 92%;
+  max-width: 1600px; /* Max content width as requested */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centered composition */
+}
+
+/* TOP CONTENT: Centered Header */
+.about-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 90px; /* Exact paragraph -> image spacing */
+  width: 100%;
+}
+
+.about-label {
+  font-family: var(--font-sans);
+  font-size: 11px; /* Decreased size for editorial print feel */
+  font-weight: 500; /* Manrope Medium */
+  letter-spacing: 0.35em; /* High letter spacing */
+  text-transform: uppercase;
+  color: var(--soft-gold); /* Warm Gold */
+  margin-bottom: 12px; /* Space to divider */
+}
+
+.about-header-divider {
+  width: 30px;
+  height: 1px;
+  background-color: var(--soft-gold);
+  margin-bottom: 36px;
+}
+
+.about-title {
+  font-family: var(--font-serif);
+  font-size: 4.8rem; /* Scaled to 76px on desktop */
+  font-weight: 300; /* Light weight for luxury editorial look */
+  line-height: 1.1; /* Natural serif height */
+  color: var(--warm-ivory);
+  max-width: 900px;
+  margin-bottom: 36px; /* Spacing to paragraph */
+  letter-spacing: -0.02em; /* Tighter letter spacing */
+}
+
+.about-description {
+  font-family: var(--font-sans);
+  font-size: 17px; /* More refined editorial body size */
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(246, 243, 238, 0.7); /* Elegant desaturated Warm Ivory */
+  max-width: 620px; /* Snug width for visual density */
+  margin: 0;
+}
+
+/* CENTER: Widescreen CinemaScope Image */
+.about-image-container {
+  width: 100%;
+  aspect-ratio: 2.35/1; /* Widescreen CinemaScope crop */
+  overflow: hidden;
+  border-radius: 20px; /* Exact 20px border radius */
+  border: none;
+  box-shadow: none;
+  margin-bottom: 90px; /* Exact Image -> Highlights spacing */
+}
+
+.about-featured-image {
+  width: 100%;
+  height: 100%; /* Fill container height to respect aspect ratio */
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04); /* Exact scale animation start */
+  transition: transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-image-container.revealed .about-featured-image {
+  transform: scale(1.00); /* Scales subtly down to 1.00 */
+}
+
+/* BOTTOM: Three Column Highlights Grid */
+.about-highlights-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px; /* Snug centered alignment */
+  margin: 0 auto;
+}
+
+.about-highlight-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 2.5rem;
+}
+
+.highlight-col-title {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500; /* Manrope Medium */
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--soft-gold); /* Warm Gold */
+  margin-bottom: 12px;
+}
+
+.highlight-col-divider {
+  width: 24px;
+  height: 1px;
+  background-color: rgba(212, 178, 106, 0.4);
+  margin: 0 auto 16px auto;
+}
+
+.highlight-col-desc {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 280px;
+  margin: 0;
+}
+
+.col-divider {
+  width: 1px;
+  background-color: rgba(212, 178, 106, 0.2); /* Thin gold vertical divider line */
+  align-self: stretch;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   11. Unified Scroll Reveal & Stagger System
+   -------------------------------------------------------------------------- */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-element.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered sequential reveals for About Header items */
+.about-header .reveal-element:nth-child(1) { transition-delay: 0.1s; }  /* Label */
+.about-header .reveal-element:nth-child(2) { transition-delay: 0.1s; }  /* Label Divider */
+.about-header .reveal-element:nth-child(3) { transition-delay: 0.25s; } /* Heading */
+.about-header .reveal-element:nth-child(4) { transition-delay: 0.4s; }  /* Description */
+
+/* Image Zoom transition overlay timing */
+.about-image-container.reveal-element {
+  transform: translateY(0); /* Lock container vertical drift, zoom takes precedence */
+  opacity: 0;
+  transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-image-container.reveal-element.revealed {
+  opacity: 1;
+}
+
+/* Highlights stagger reveals */
+.about-highlights-grid.reveal-element {
+  transform: translateY(30px);
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.about-highlights-grid.reveal-element.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-highlights-grid.revealed .about-highlight-col:nth-child(1) { transition-delay: 0.6s; }
+.about-highlights-grid.revealed .about-highlight-col:nth-child(3) { transition-delay: 0.75s; }
+.about-highlights-grid.revealed .about-highlight-col:nth-child(5) { transition-delay: 0.9s; }
+
+/* --------------------------------------------------------------------------
+   12. Responsive Adjustments for About Us
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .about-section {
+    padding: 140px 2.5rem;
+  }
+  .about-title {
+    font-size: 3.5rem;
+  }
+  .about-header {
+    margin-bottom: 60px;
+  }
+  .about-image-container {
+    margin-bottom: 60px;
+  }
+  .about-highlight-col {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 100px 1.5rem;
+  }
+  .about-title {
+    font-size: 2.75rem;
+  }
+  .about-highlights-grid {
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .col-divider {
+    display: none; /* Hide vertical dividers on mobile stack */
+  }
+  .about-highlight-col {
+    padding: 0;
+    width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   13. Global Section Styling (Spacious Editorial Layout)
+   -------------------------------------------------------------------------- */
+.accommodation-section,
+.experiences-section,
+.gallery-section,
+.testimonials-section,
+.location-section {
+  background-color: #141715; /* Deep Forest Green */
+  padding: 180px 0; /* Consistent spacing between sections */
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.section-container {
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-header {
+  margin-bottom: 90px;
+  width: 100%;
+}
+
+.section-header.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--soft-gold);
+  margin-bottom: 16px;
+}
+
+.section-header-divider {
+  width: 30px;
+  height: 1px;
+  background-color: var(--soft-gold);
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--warm-ivory);
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+.section-desc {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 580px;
+}
+
+/* --------------------------------------------------------------------------
+   14. Section 3: Accommodation (Alternating Showcase Blocks)
+   -------------------------------------------------------------------------- */
+.rooms-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 120px; /* Spacious gaps between rooms */
+  width: 100%;
+}
+
+.room-block {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  width: 100%;
+}
+
+.room-block.reverse {
+  flex-direction: row-reverse;
+}
+
+.room-image-wrapper {
+  flex: 0 0 58%;
+  overflow: hidden;
+  border-radius: 18px; /* 18px border radius */
+  border: none;
+  background: #0f1110;
+}
+
+.room-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.room-image-wrapper:hover .room-image {
+  transform: scale(1.00); /* Smooth hover reveal zoom out */
+}
+
+.room-details {
+  flex: 0 0 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--warm-ivory);
+}
+
+.room-name {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.room-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2.25rem;
+}
+
+.room-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+}
+
+.spec-item {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.spec-label {
+  color: var(--soft-gold);
+  font-weight: 500;
+  margin-right: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.room-link {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--warm-ivory);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color var(--transition-medium);
+}
+
+.room-arrow {
+  transition: transform var(--transition-medium);
+}
+
+.room-link:hover {
+  color: var(--soft-gold);
+}
+
+.room-link:hover .room-arrow {
+  transform: translateX(6px);
+}
+
+/* --------------------------------------------------------------------------
+   15. Section 4: Experiences (Editorial 4-Card Grid)
+   -------------------------------------------------------------------------- */
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5rem 4rem; /* Spacious grid gaps */
+  width: 100%;
+}
+
+.experience-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Shifting cards to create luxury asymmetrical composition */
+.experience-card.shift-up {
+  transform: translateY(60px);
+}
+
+.experience-image-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #0f1110;
+  margin-bottom: 2rem;
+}
+
+.experience-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04);
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-image-wrapper:hover .experience-image {
+  transform: scale(1.00);
+}
+
+.experience-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.experience-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--warm-ivory);
+  margin-bottom: 1rem;
+}
+
+.experience-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 1.5rem;
+  max-width: 440px;
+}
+
+.experience-link {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--warm-ivory);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color var(--transition-medium);
+}
+
+.exp-arrow {
+  transition: transform var(--transition-medium);
+}
+
+.experience-link:hover {
+  color: var(--soft-gold);
+}
+
+.experience-link:hover .exp-arrow {
+  transform: translateX(5px);
+}
+
+/* --------------------------------------------------------------------------
+   16. Section 5: Gallery (Masonry Grid)
+   -------------------------------------------------------------------------- */
+.gallery-masonry {
+  column-count: 3;
+  column-gap: 2.5rem;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+  border-radius: 18px; /* 18px border radius */
+  background: #0f1110;
+  border: none;
+}
+
+.gallery-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: scale(1.05); /* Scales subtly from 1.05 to 1.00 */
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gallery-item:hover .gallery-image {
+  transform: scale(1.00);
+}
+
+/* Different sizes for masonry layout */
+.gallery-item.size-short .gallery-image {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+
+.gallery-item.size-medium .gallery-image {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.gallery-item.size-tall .gallery-image {
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   17. Section 6: Guest Stories (Minimal Testimonials)
+   -------------------------------------------------------------------------- */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 3rem 2.5rem;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.testimonial-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-5px);
+}
+
+.rating {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  color: var(--soft-gold);
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-text {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.testimonial-author {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  color: var(--warm-ivory);
+}
+
+/* --------------------------------------------------------------------------
+   18. Section 7: Location (Split Map/Details Layout)
+   -------------------------------------------------------------------------- */
+.location-grid {
+  display: flex;
+  align-items: center;
+  gap: 6rem;
+  width: 90%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.location-map {
+  flex: 0 0 55%;
+  overflow: hidden;
+  border-radius: 18px;
+  border: none;
+  background: #0f1110;
+  line-height: 0;
+}
+
+.location-details {
+  flex: 0 0 38%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--warm-ivory);
+}
+
+.location-title {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 3rem;
+  letter-spacing: -0.01em;
+}
+
+.location-info-block {
+  margin-bottom: 2.25rem;
+  width: 100%;
+}
+
+.info-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--soft-gold);
+  margin-bottom: 0.5rem;
+}
+
+.info-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.attractions-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.attractions-list li {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.attractions-list li::before {
+  content: '•';
+  color: var(--soft-gold);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.btn-maps {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-weight: 500;
+  color: var(--warm-ivory);
+  padding: 0.75rem 1.6rem;
+  border-radius: 50px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: var(--transition-medium);
+  display: inline-block;
+  margin-top: 1.5rem;
+}
+
+.btn-maps:hover {
+  background: var(--warm-ivory);
+  border-color: var(--warm-ivory);
+  color: var(--forest-green);
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   19. Section 8: Final Call to Action (Cinematic Full-Width Banner)
+   -------------------------------------------------------------------------- */
+.final-cta-section {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  overflow: hidden;
+}
+
+.cta-background-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.cta-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cta-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(20, 23, 21, 0.7) 0%, rgba(20, 23, 21, 0.85) 100%);
+  z-index: 2;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--warm-ivory);
+  padding: 0 2rem;
+  max-width: 750px;
+}
+
+.cta-title {
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 1.05;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.cta-desc {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 3rem;
+  max-width: 540px;
+}
+
+.cta-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   20. Section 9: Footer (Minimal Luxury Footer)
+   -------------------------------------------------------------------------- */
+.footer-section {
+  background-color: #0f1110; /* Darker carbon background */
+  padding: 100px 5rem 40px 5rem;
+  position: relative;
+  z-index: 5;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1240px;
+  margin: 0 auto 80px auto;
+  flex-wrap: wrap;
+  gap: 4rem;
+}
+
+.footer-col {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: var(--warm-ivory);
+}
+
+.brand-col {
+  flex: 0 0 35%;
+}
+
+.footer-logo-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  letter-spacing: 0.12em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.footer-logo-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  font-weight: 500;
+  color: var(--soft-gold);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.footer-brand-desc {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 320px;
+}
+
+.footer-col-title {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--soft-gold);
+  margin-bottom: 2rem;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color var(--transition-medium);
+}
+
+.footer-links a:hover {
+  color: var(--soft-gold);
+}
+
+.footer-contact-item {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.75rem;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.social-link {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color var(--transition-medium);
+}
+
+.social-link:hover {
+  color: var(--soft-gold);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 40px;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.copyright {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+.footer-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   21. Additional Responsive Adjustments
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .accommodation-section,
+  .experiences-section,
+  .gallery-section,
+  .testimonials-section,
+  .location-section {
+    padding: 120px 0;
+  }
+  .room-block {
+    gap: 3rem;
+  }
+  .room-image-wrapper {
+    flex: 0 0 55%;
+  }
+  .room-details {
+    flex: 0 0 40%;
+  }
+  .experiences-grid {
+    gap: 3.5rem 2.5rem;
+  }
+  .gallery-masonry {
+    column-count: 2;
+    column-gap: 2rem;
+  }
+  .testimonials-grid {
+    gap: 2rem;
+  }
+  .location-grid {
+    gap: 3rem;
+  }
+  .footer-section {
+    padding: 80px 2.5rem 40px 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Body scroll clip */
+  body {
+    overflow-x: clip;
+  }
+  
+  /* Navigation Centering */
+  .navbar {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+  }
+  
+  .navbar.scrolled {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex; /* Show toggle */
+  }
+  
+  .nav-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 110;
+  }
+  
+  .logo-title {
+    font-size: 1.25rem;
+  }
+  
+  .logo-subtitle {
+    font-size: 0.45rem;
+    letter-spacing: 0.35em;
+  }
+  
+  .nav-right-group {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  
+  .nav-menu {
+    display: none; /* Hide standard links, they are in the drawer! */
+  }
+  
+  .nav-cta {
+    display: block;
+  }
+  
+  .btn-book {
+    font-size: 0.65rem;
+    padding: 0.5rem 1rem;
+    letter-spacing: 0.12em;
+  }
+  
+  /* Hero Section Centering & Spacings */
+  .hero-content {
+    width: 88%;
+    top: 120px; /* Top padding 120px as requested */
+    transform: translate(-50%, 0); /* Centered and positioned from top */
+  }
+  
+  .hero-title {
+    font-size: 2.85rem; /* Heading: 48-56px range */
+    line-height: 1.1;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.95rem; /* Subtitle: 16px (0.95rem is approx 15-16px) */
+    line-height: 1.7;
+    max-width: 320px;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px; /* Max button width 300px as requested */
+    gap: 14px; /* Gap between buttons: 14px */
+    margin: 0 auto;
+  }
+  
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-size: 0.72rem;
+    text-align: center;
+    border-radius: 50px; /* Remains pill-shaped */
+  }
+  
+  .scroll-indicator {
+    bottom: 2rem;
+    transform: translateX(-50%);
+  }
+  
+  /* Section Spacings & Paddings */
+  .about-section,
+  .accommodation-section,
+  .experiences-section,
+  .gallery-section,
+  .testimonials-section,
+  .location-section {
+    padding: 100px 0; /* Premium mobile vertical padding */
+  }
+  
+  .section-container {
+    width: 88%;
+  }
+  
+  .section-header {
+    margin-bottom: 60px;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .section-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  
+  /* About Us Section: Text first, Image second, Highlights third */
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+  
+  .about-header {
+    margin-bottom: 0; /* Handled by container gap */
+    order: 1; /* Text first */
+  }
+  
+  .about-title {
+    font-size: 2.85rem;
+    line-height: 1.1;
+  }
+  
+  .about-description {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+  
+  .about-image-container {
+    order: 2; /* Image second */
+    aspect-ratio: 16/10; /* Proportionate crop for mobile viewports */
+    margin-bottom: 0;
+  }
+  
+  .about-highlights-grid {
+    order: 3; /* Highlights third */
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-bottom: 0;
+  }
+  
+  .col-divider {
+    display: none; /* Hide vertical dividers on mobile */
+  }
+  
+  .about-highlight-col {
+    padding: 0;
+    width: 100%;
+  }
+  
+  /* Accommodation Section: Full-width Editorial Cards */
+  .rooms-showcase {
+    gap: 48px; /* Spacing between cards: 48px */
+  }
+  
+  .room-block {
+    flex-direction: column !important; /* Stack columns */
+    align-items: flex-start;
+    gap: 24px;
+  }
+  
+  .room-image-wrapper {
+    width: 100% !important;
+    aspect-ratio: 16/10;
+  }
+  
+  .room-details {
+    width: 100% !important;
+  }
+  
+  .room-name {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .room-desc {
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+  }
+  
+  .room-specs {
+    margin-bottom: 2rem;
+    padding-top: 1rem;
+  }
+  
+  /* Experiences Section: Vertical Stacking with Large Immersive Images */
+  .experiences-grid {
+    grid-template-columns: 1fr;
+    gap: 48px; /* Clean vertical gaps */
+  }
+  
+  .experience-card {
+    width: 100%;
+  }
+  
+  .experience-card.shift-up {
+    transform: translateY(0); /* Remove desktop offset */
+  }
+  
+  .experience-image-wrapper {
+    margin-bottom: 1.25rem;
+  }
+  
+  .experience-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .experience-desc {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    max-width: 100%;
+  }
+  
+  /* Gallery Section: Masonry Column Count Reset */
+  .gallery-masonry {
+    column-count: 1 !important; /* Keep images large */
+    column-gap: 0;
+  }
+  
+  .gallery-item {
+    margin-bottom: 24px;
+    width: 100%;
+  }
+  
+  .gallery-item.size-tall .gallery-image,
+  .gallery-item.size-medium .gallery-image,
+  .gallery-item.size-short .gallery-image {
+    aspect-ratio: 16/11; /* Consistent responsive image heights */
+    object-fit: cover;
+  }
+  
+  /* Testimonials Section: Native touch swipeable cards slider */
+  .testimonials-grid {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 1.5rem;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    margin: 0 -1.5rem; /* Allow full-bleed container scrolling edge to edge */
+    scrollbar-width: none;
+  }
+  
+  .testimonials-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .testimonial-card {
+    flex: 0 0 85%; /* Sized to let next card peek slightly */
+    scroll-snap-align: center;
+    padding: 2.5rem 2rem;
+  }
+  
+  .testimonial-text {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Location Section: Map first, details second */
+  .location-grid {
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .location-map {
+    width: 100% !important;
+    order: 1; /* Map first */
+  }
+  
+  .location-details {
+    width: 100% !important;
+    order: 2; /* Info second */
+  }
+  
+  .location-title {
+    font-size: 2.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* Final CTA Section */
+  .final-cta-section {
+    height: 540px;
+  }
+  
+  .cta-content {
+    width: 90%;
+  }
+  
+  .cta-title {
+    font-size: 2.85rem;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+  
+  .cta-desc {
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    gap: 12px;
+  }
+  
+  /* Footer: Centered stacked columns */
+  .footer-section {
+    padding: 80px 1.5rem 40px 1.5rem;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 48px;
+    margin-bottom: 60px;
+  }
+  
+  .footer-col {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .brand-col {
+    max-width: 360px;
+  }
+  
+  .footer-logo-subtitle {
+    margin-bottom: 1rem;
+  }
+  
+  .footer-col-title {
+    margin-bottom: 1.25rem;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding-top: 30px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   22. Mobile Menu Toggle Styles
+   -------------------------------------------------------------------------- */
+.mobile-menu-toggle {
+  display: none; /* Hidden on desktop */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 110;
+  position: relative;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--warm-ivory);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+}
+
+/* Hamburger active state transformation */
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   23. Mobile Drawer Overlay Styles
+   -------------------------------------------------------------------------- */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #0f1110; /* Dark carbon black */
+  z-index: 105;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(-100%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.mobile-drawer.open {
+  transform: translateY(0);
+}
+
+.mobile-drawer-menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 5rem;
+  padding: 0;
+}
+
+.drawer-item {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  color: var(--warm-ivory);
+  text-decoration: none;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  transition: color 0.4s ease;
+}
+
+.drawer-item:hover {
+  color: var(--soft-gold);
+}
+
+.drawer-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drawer-logo-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--warm-ivory);
+}
+
+.drawer-logo-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.38em;
+  color: var(--soft-gold);
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+/* Block body scroll when drawer is open */
+body.drawer-open {
+  overflow: hidden !important;
+}
+
+/* --------------------------------------------------------------------------
+   24. Editorial Image Zoom Reveal & Hover Zoom Logic
+   -------------------------------------------------------------------------- */
+.zoom-reveal {
+  overflow: hidden;
+}
+
+.zoom-reveal img {
+  transform: scale(1.05); /* Scales from 1.05 ➔ 1.00 when revealed */
+  transition: transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.revealed .zoom-reveal img,
+.revealed.zoom-reveal img {
+  transform: scale(1.00);
+}
+
+/* Smooth zoom to 102% on hover */
+.zoom-reveal:hover img {
+  transform: scale(1.02) !important;
+}
+
+/* Button lifts 2px on hover */
+.btn-primary,
+.btn-secondary,
+.btn-maps {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background 0.4s ease, 
+              color 0.4s ease, 
+              border-color 0.4s ease;
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.btn-maps:hover {
+  transform: translateY(-2px);
+}

@@ -1,0 +1,257 @@
+/* ==========================================================================
+   TUSKER INN FOREST LODGE - JAVASCRIPT ANIMATION ENGINE
+   High-performance canvas frame scrubbing and scroll timeline logic
+   ========================================================================== */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Elements
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  const preloader = document.getElementById('preloader');
+  const progressBar = document.getElementById('progress-bar');
+  const progressText = document.getElementById('progress-text');
+  const heroContent = document.getElementById('hero-content');
+  const scrollIndicator = document.getElementById('scroll-indicator');
+  const scrollTrack = document.querySelector('.scroll-track');
+  const navbar = document.querySelector('.navbar');
+
+  // Animation configuration
+  const isMobile = window.innerWidth <= 768;
+  const totalFrames = isMobile ? 107 : 102;
+  const images = [];
+  let loadedCount = 0;
+  let currentFrameIndex = 1;
+  let targetFrameIndex = 1;
+  let lastDrawnIndex = -1;
+  let isAnimating = false;
+
+  // Disable scroll during preloading
+  document.body.style.overflow = 'hidden';
+
+  // Path generator for frame sequence
+  function getFramePath(index) {
+    const paddedIndex = String(index).padStart(3, '0');
+    if (isMobile) {
+      return `hero animation/mobile responsive/frame_${paddedIndex}.jpg`;
+    } else {
+      return `hero animation/frame_${paddedIndex}.jpg`;
+    }
+  }
+
+  // Preload all frames
+  function preloadImages() {
+    for (let i = 1; i <= totalFrames; i++) {
+      const img = new Image();
+      img.src = getFramePath(i);
+      img.onload = () => {
+        loadedCount++;
+        updateProgress();
+      };
+      img.onerror = () => {
+        console.error(`Failed to load frame: ${img.src}`);
+        // Increment anyway to prevent preloader from getting stuck
+        loadedCount++;
+        updateProgress();
+      };
+      images.push(img);
+    }
+  }
+
+  // Update visual progress of preloading
+  function updateProgress() {
+    const percentage = Math.round((loadedCount / totalFrames) * 100);
+    progressBar.style.width = `${percentage}%`;
+    progressText.innerText = `${percentage}%`;
+
+    if (loadedCount === totalFrames) {
+      setTimeout(startExperience, 600); // Elegant delay after completion
+    }
+  }
+
+  // Transition from preloader to the experience
+  function startExperience() {
+    preloader.classList.add('fade-out');
+    document.body.style.overflow = 'auto'; // Re-enable scroll
+    
+    // Initial draw and canvas sizing
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial scroll check
+    handleScroll();
+  }
+
+  // Handle aspect-ratio cover layout on Canvas (object-fit: cover behavior)
+  function drawFrame(index) {
+    if (index === lastDrawnIndex) return; // Prevent redundant draws
+    
+    const img = images[index - 1];
+    if (!img || !img.complete) return;
+
+    const cw = canvas.width;
+    const ch = canvas.height;
+    const iw = img.width;
+    const ih = img.height;
+
+    // Calculate scaling to fill screen while preserving aspect ratio
+    const scale = Math.max(cw / iw, ch / ih);
+    const sw = iw * scale;
+    const sh = ih * scale;
+    const x = (cw - sw) / 2;
+    const y = (ch - sh) / 2;
+
+    // Clear and draw
+    ctx.clearRect(0, 0, cw, ch);
+    ctx.drawImage(img, x, y, sw, sh);
+    
+    lastDrawnIndex = index;
+  }
+
+  // Dynamic canvas sizing matching window dimensions and pixel ratio
+  function resizeCanvas() {
+    const scale = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * scale;
+    canvas.height = window.innerHeight * scale;
+    drawFrame(Math.round(currentFrameIndex));
+  }
+
+  // Track scroll and drive animation/content states
+  let ticking = false;
+  function handleScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateScrollState();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  function updateScrollState() {
+    const scrollY = window.scrollY;
+    const trackHeight = scrollTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const maxScroll = trackHeight - viewportHeight;
+
+    if (maxScroll <= 0) return;
+
+    // Normalize scroll position to a 0.0 - 1.0 fraction
+    const scrollFraction = Math.max(0, Math.min(1, scrollY / maxScroll));
+
+    // Mapping:
+    // 0.0 to 0.65: Scrub the animation sequence frames 1 to 102
+    // 0.65 to 0.75: Pin the last frame (frame 102) for a brief moment
+    // 0.75 to 1.00: Reveal the premium hero content with elegant motion
+    
+    const ANIMATION_END = 0.65;
+    const PIN_END = 0.75;
+
+    let targetFrame = 1;
+
+    if (scrollFraction <= ANIMATION_END) {
+      // Map scroll progress to frame index
+      const animProgress = scrollFraction / ANIMATION_END;
+      targetFrame = Math.floor(animProgress * (totalFrames - 1)) + 1;
+    } else {
+      // Pin the final frame
+      targetFrame = totalFrames;
+    }
+
+    targetFrameIndex = Math.max(1, Math.min(totalFrames, targetFrame));
+    
+    // Start smooth rendering loop if not running
+    if (!isAnimating) {
+      isAnimating = true;
+      requestAnimationFrame(renderLoop);
+    }
+
+    // Reveal / hide content based on threshold
+    if (scrollFraction >= PIN_END) {
+      heroContent.classList.add('reveal-active');
+      scrollIndicator.classList.add('hide'); // Hide standard bottom indicator as we reached the content
+    } else {
+      heroContent.classList.remove('reveal-active');
+      
+      // If we are at the very top, show indicator; otherwise hide it during active scrubbing
+      if (scrollY < 50) {
+        scrollIndicator.classList.remove('hide');
+      } else {
+        scrollIndicator.classList.add('hide');
+      }
+    }
+
+    // Toggle glassmorphic navbar styling on scroll
+    if (scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
+  // Linear interpolation loop to smooth out mouse wheel increments
+  function renderLoop() {
+    const diff = targetFrameIndex - currentFrameIndex;
+
+    // If close enough, snap to target and stop animation loop
+    if (Math.abs(diff) < 0.01) {
+      currentFrameIndex = targetFrameIndex;
+      drawFrame(Math.round(currentFrameIndex));
+      isAnimating = false;
+    } else {
+      // Smoothly slide towards the target frame index (speed factor 0.12)
+      currentFrameIndex += diff * 0.12;
+      drawFrame(Math.round(currentFrameIndex));
+      requestAnimationFrame(renderLoop);
+    }
+  }
+
+  // Intersection Observer for scroll-revealed elements (About section)
+  function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.reveal-element');
+    const observerOptions = {
+      root: null,
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target); // Stop tracking once revealed
+        }
+      });
+    }, observerOptions);
+
+    revealElements.forEach(el => observer.observe(el));
+  }
+
+  // Mobile drawer navigation logic
+  function initMobileDrawer() {
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileDrawer = document.querySelector('.mobile-drawer');
+
+    if (menuToggle && mobileDrawer) {
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mobileDrawer.classList.toggle('open');
+        document.body.classList.toggle('drawer-open');
+      });
+
+      const drawerLinks = document.querySelectorAll('.drawer-item');
+      drawerLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          menuToggle.classList.remove('active');
+          mobileDrawer.classList.remove('open');
+          document.body.classList.remove('drawer-open');
+        });
+      });
+    }
+  }
+
+  // Trigger preloader initialization
+  preloadImages();
+  initScrollReveal();
+  initMobileDrawer();
+});

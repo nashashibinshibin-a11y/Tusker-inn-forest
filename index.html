@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tusker Inn Forest Lodge | Wayanad</title>
+  <meta name="description" content="Discover a premium, quiet retreat surrounded by lush forests and tranquil landscapes in the heart of Wayanad. Inspired by nature and premium luxury.">
+  
+  <!-- Typography & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- Preloader Screen -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <div class="preloader-title">Tusker Inn</div>
+      <div class="preloader-subtitle">Forest Lodge • Wayanad</div>
+      <div class="progress-bar-container">
+        <div id="progress-bar" class="progress-bar"></div>
+      </div>
+      <div id="progress-text" class="progress-text">0%</div>
+    </div>
+  </div>
+
+  <!-- Main Scroll Container -->
+  <div class="scroll-track">
+    <div class="sticky-container">
+      
+      <!-- High Performance Canvas for Frame Animation -->
+      <canvas id="hero-canvas"></canvas>
+
+      <!-- Forest Gradient and Vignette Overlays -->
+      <div class="forest-overlay"></div>
+      <div class="vignette-overlay"></div>
+
+      <!-- Navigation Bar -->
+      <nav class="navbar">
+        <!-- Mobile Menu Toggle Button (Hamburger) -->
+        <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <div class="nav-logo">
+          <a href="#" class="logo-link">
+            <span class="logo-title">Tusker Inn</span>
+            <span class="logo-subtitle">Forest Lodge</span>
+          </a>
+        </div>
+        <div class="nav-right-group">
+          <ul class="nav-menu">
+            <li><a href="#" class="nav-item">Home</a></li>
+            <li><a href="#" class="nav-item">Stay</a></li>
+            <li><a href="#" class="nav-item">Experiences</a></li>
+            <li><a href="#" class="nav-item">Gallery</a></li>
+            <li><a href="#" class="nav-item">Contact</a></li>
+          </ul>
+          <div class="nav-cta">
+            <a href="#" class="btn-book">Reserve Your Stay</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Mobile Fullscreen Drawer Overlay -->
+      <div class="mobile-drawer">
+        <ul class="mobile-drawer-menu">
+          <li><a href="#" class="drawer-item">Home</a></li>
+          <li><a href="#accommodation" class="drawer-item">Stay</a></li>
+          <li><a href="#experiences" class="drawer-item">Experiences</a></li>
+          <li><a href="#gallery" class="drawer-item">Gallery</a></li>
+          <li><a href="#location" class="drawer-item">Contact</a></li>
+        </ul>
+        <div class="drawer-footer">
+          <span class="drawer-logo-title">Tusker Inn</span>
+          <span class="drawer-logo-subtitle">Forest Lodge</span>
+        </div>
+      </div>
+
+      <!-- Cinematic Hero Content -->
+      <div id="hero-content" class="hero-content">
+        <div class="content-inner">
+          <div class="divider-line animate-item"></div>
+          <div class="lodge-label animate-item">FOREST LODGE • WAYANAD</div>
+          
+          <h1 class="hero-title">
+            <span class="word-wrapper"><span class="word">Where</span></span>
+            <span class="word-wrapper"><span class="word">Nature</span></span>
+            <br>
+            <span class="word-wrapper"><span class="word">Becomes</span></span>
+            <span class="word-wrapper"><span class="word">Home</span></span>
+          </h1>
+
+          <p class="hero-subtitle animate-item">
+            Escape into the untouched beauty of Wayanad, where peaceful forests, tranquil waters, and authentic hospitality create unforgettable stays.
+          </p>
+
+          <div class="hero-buttons animate-item">
+            <a href="#" class="btn-primary">Plan Your Escape</a>
+            <a href="#" class="btn-secondary">Explore the Lodge</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div id="scroll-indicator" class="scroll-indicator">
+        <span class="scroll-text">Scroll to Discover</span>
+        <div class="mouse-icon">
+          <div class="mouse-dot"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- About Us Section -->
+  <section id="about-us" class="about-section">
+    <div class="about-container">
+      
+      <!-- Top Header: Centered Editorial Text -->
+      <div class="about-header">
+        <div class="about-label reveal-element">ABOUT TUSKER INN</div>
+        <div class="about-header-divider reveal-element"></div>
+        <h2 class="about-title reveal-element">
+          Hidden in the Forest.<br>Crafted for Stillness.
+        </h2>
+        <p class="about-description reveal-element">
+          Nestled deep within the forests of Wayanad, Tusker Inn Forest Lodge invites you to slow down, reconnect with nature, and experience a quieter way of living.
+        </p>
+      </div>
+      
+      <!-- Large Immersive Image (90-95% width, max 1600px) -->
+      <div class="about-image-container reveal-element zoom-reveal">
+        <img src="hero animation/About us /ChatGPT Image Jul 15, 2026 at 11_16_34 PM.png" alt="Tusker Inn Forest Lodge Retreat" class="about-featured-image">
+      </div>
+      
+      <!-- Experience Highlights (3 equal columns separated by vertical dividers) -->
+      <div class="about-highlights-grid reveal-element">
+        
+        <!-- Column 1 -->
+        <div class="about-highlight-col">
+          <h4 class="highlight-col-title">FOREST RETREAT</h4>
+          <div class="highlight-col-divider"></div>
+          <p class="highlight-col-desc">Peaceful forest surroundings and fresh mountain air.</p>
+        </div>
+        
+        <!-- Vertical divider -->
+        <div class="col-divider"></div>
+        
+        <!-- Column 2 -->
+        <div class="about-highlight-col">
+          <h4 class="highlight-col-title">LAKE VIEWS</h4>
+          <div class="highlight-col-divider"></div>
+          <p class="highlight-col-desc">Wake up to tranquil waters and breathtaking scenery.</p>
+        </div>
+        
+        <!-- Vertical divider -->
+        <div class="col-divider"></div>
+        
+        <!-- Column 3 -->
+        <div class="about-highlight-col">
+          <h4 class="highlight-col-title">NATURE TRAILS</h4>
+          <div class="highlight-col-divider"></div>
+          <p class="highlight-col-desc">Walk through untouched greenery and discover Wayanad.</p>
+        </div>
+        
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Accommodation Section -->
+  <section id="accommodation" class="accommodation-section">
+    <div class="section-container">
+      <div class="section-header centered">
+        <div class="section-label reveal-element">ACCOMMODATION</div>
+        <div class="section-header-divider reveal-element"></div>
+        <h2 class="section-title reveal-element">Luxury Stays<br>Surrounded by Nature</h2>
+        <p class="section-desc reveal-element">Each dwelling is thoughtfully crafted with warm natural elements to soothe the senses.</p>
+      </div>
+
+      <div class="rooms-showcase">
+        <!-- Room 1: Image Left, Details Right -->
+        <div class="room-block reveal-element">
+          <div class="room-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_010.jpg" alt="Forest Canopy Villa" class="room-image">
+          </div>
+          <div class="room-details">
+            <h3 class="room-name">Forest Canopy Villa</h3>
+            <p class="room-desc">Elevated among the ancient trees, this villa offers birds-eye views of the mist-laden canopy, featuring a spacious private wooden deck.</p>
+            <div class="room-specs">
+              <div class="spec-item"><span class="spec-label">Capacity:</span> 2 Guests</div>
+              <div class="spec-item"><span class="spec-label">Bed Type:</span> King Size</div>
+              <div class="spec-item"><span class="spec-label">View:</span> Forest Canopy</div>
+            </div>
+            <a href="#" class="room-link">Explore Room <span class="room-arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- Room 2: Image Right, Details Left -->
+        <div class="room-block reverse reveal-element">
+          <div class="room-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_040.jpg" alt="Lakefront Sanctuary" class="room-image">
+          </div>
+          <div class="room-details">
+            <h3 class="room-name">Lakefront Sanctuary</h3>
+            <p class="room-desc">Positioned directly along the tranquil water's edge, experience peaceful mornings with reflection pools and custom open-air luxury baths.</p>
+            <div class="room-specs">
+              <div class="spec-item"><span class="spec-label">Capacity:</span> 3 Guests</div>
+              <div class="spec-item"><span class="spec-label">Bed Type:</span> King Size</div>
+              <div class="spec-item"><span class="spec-label">View:</span> Lake & Forest</div>
+            </div>
+            <a href="#" class="room-link">Explore Room <span class="room-arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- Room 3: Image Left, Details Right -->
+        <div class="room-block reveal-element">
+          <div class="room-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_070.jpg" alt="The Wilderness Cabin" class="room-image">
+          </div>
+          <div class="room-details">
+            <h3 class="room-name">The Wilderness Cabin</h3>
+            <p class="room-desc">A secluded sanctuary tucked deep into the dense woodland, perfect for travelers seeking total privacy and peaceful contemplation.</p>
+            <div class="room-specs">
+              <div class="spec-item"><span class="spec-label">Capacity:</span> 2 Guests</div>
+              <div class="spec-item"><span class="spec-label">Bed Type:</span> Queen Size</div>
+              <div class="spec-item"><span class="spec-label">View:</span> Deep Wilderness</div>
+            </div>
+            <a href="#" class="room-link">Explore Room <span class="room-arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experiences Section -->
+  <section id="experiences" class="experiences-section">
+    <div class="section-container">
+      <div class="section-header centered">
+        <div class="section-label reveal-element">EXPERIENCES</div>
+        <div class="section-header-divider reveal-element"></div>
+        <h2 class="section-title reveal-element">Moments Worth<br>Remembering</h2>
+        <p class="section-desc reveal-element">Immerse yourself in carefully curated forest rituals designed to restore stillness.</p>
+      </div>
+
+      <div class="experiences-grid">
+        <!-- Experience 1 -->
+        <div class="experience-card reveal-element">
+          <div class="experience-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_020.jpg" alt="Forest Walk" class="experience-image">
+          </div>
+          <div class="experience-content">
+            <h3 class="experience-title">Forest Walk</h3>
+            <p class="experience-desc">Wander through mossy pathways accompanied by our expert naturalist to discover native flora.</p>
+            <a href="#" class="experience-link">Explore <span class="exp-arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- Experience 2 -->
+        <div class="experience-card shift-up reveal-element">
+          <div class="experience-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_050.jpg" alt="Campfire Nights" class="experience-image">
+          </div>
+          <div class="experience-content">
+            <h3 class="experience-title">Campfire Nights</h3>
+            <p class="experience-desc">Unwind under a blanket of stars beside a roaring bonfire, sharing stories and local warm brews.</p>
+            <a href="#" class="experience-link">Explore <span class="exp-arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- Experience 3 -->
+        <div class="experience-card reveal-element">
+          <div class="experience-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_080.jpg" alt="Lake Views" class="experience-image">
+          </div>
+          <div class="experience-content">
+            <h3 class="experience-title">Lake Views</h3>
+            <p class="experience-desc">Enjoy serene morning rowing sessions or sit quietly beside the lakeside boardwalk.</p>
+            <a href="#" class="experience-link">Explore <span class="exp-arrow">→</span></a>
+          </div>
+        </div>
+
+        <!-- Experience 4 -->
+        <div class="experience-card shift-up reveal-element">
+          <div class="experience-image-wrapper zoom-reveal">
+            <img src="hero animation/frame_090.jpg" alt="Bird Watching" class="experience-image">
+          </div>
+          <div class="experience-content">
+            <h3 class="experience-title">Bird Watching</h3>
+            <p class="experience-desc">Observe rare migratory birds nesting in the canopy from our custom observation decks.</p>
+            <a href="#" class="experience-link">Explore <span class="exp-arrow">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="gallery-section">
+    <div class="section-container">
+      <div class="section-header centered">
+        <div class="section-label reveal-element">GALLERY</div>
+        <div class="section-header-divider reveal-element"></div>
+        <h2 class="section-title reveal-element">Discover the Beauty<br>of Tusker Inn</h2>
+        <p class="section-desc reveal-element">A visual journey through our private forest sanctuary and elegant spaces.</p>
+      </div>
+
+      <!-- Masonry Grid -->
+      <div class="gallery-masonry reveal-element">
+        <div class="gallery-item size-tall zoom-reveal">
+          <img src="hero animation/frame_015.jpg" alt="Tusker Inn Landscape" class="gallery-image">
+        </div>
+        <div class="gallery-item size-short zoom-reveal">
+          <img src="hero animation/frame_035.jpg" alt="Lodge Interior Detail" class="gallery-image">
+        </div>
+        <div class="gallery-item size-medium zoom-reveal">
+          <img src="hero animation/frame_055.jpg" alt="Forest Pathway" class="gallery-image">
+        </div>
+        <div class="gallery-item size-short zoom-reveal">
+          <img src="hero animation/frame_065.jpg" alt="Morning Mist" class="gallery-image">
+        </div>
+        <div class="gallery-item size-tall zoom-reveal">
+          <img src="hero animation/frame_075.jpg" alt="Wilderness Cabin View" class="gallery-image">
+        </div>
+        <div class="gallery-item size-medium zoom-reveal">
+          <img src="hero animation/frame_095.jpg" alt="Lake Reflection" class="gallery-image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Guest Stories Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="section-container">
+      <div class="section-header centered">
+        <div class="section-label reveal-element">TESTIMONIALS</div>
+        <div class="section-header-divider reveal-element"></div>
+        <h2 class="section-title reveal-element">Loved by Guests,<br>Remembered Forever</h2>
+      </div>
+
+      <div class="testimonials-grid reveal-element">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card">
+          <div class="rating">★★★★★</div>
+          <p class="testimonial-text">"Tusker Inn is a masterpiece of luxury and integration. The linear scroll storytelling is exactly what it feels like in real life—you just slow down and let the forest carry you away."</p>
+          <div class="testimonial-author">Sarah Jenkins</div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card">
+          <div class="rating">★★★★★</div>
+          <p class="testimonial-text">"The wilderness cabin was absolutely breathtaking. Being surrounded by towering trees while receiving Aman-level hospitality was an experience we will cherish forever."</p>
+          <div class="testimonial-author">Marcus Vance</div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card">
+          <div class="rating">★★★★★</div>
+          <p class="testimonial-text">"Waking up to the birdsong and mist rolling over the lake was spiritual. The staff took care of every detail. It's a sanctuary of silence and elegance."</p>
+          <div class="testimonial-author">Elena Rostova</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Section -->
+  <section id="location" class="location-section">
+    <div class="section-container location-grid">
+      <!-- Left Side: Map -->
+      <div class="location-map reveal-element">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125176.6087508492!2d76.01258661640624!3d11.603348100000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba60c23be2a9b3d%3A0x6e9f2ffb91a7833a!2sWayanad%20Wildlife%20Sanctuary!5e0!3m2!1sen!2sin!4v1689441112223!5m2!1sen!2sin" 
+          width="100%" height="480" style="border:0; border-radius:18px; filter: grayscale(1) invert(0.92) contrast(1.15);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <!-- Right Side: Details -->
+      <div class="location-details reveal-element">
+        <div class="section-label">LOCATION</div>
+        <h2 class="location-title">Hidden in Wayanad</h2>
+        
+        <div class="location-info-block">
+          <h4 class="info-title">Address</h4>
+          <p class="info-desc">Tusker Inn Forest Lodge, Wayanad Wildlife Sanctuary Road, Kerala, India</p>
+        </div>
+
+        <div class="location-info-block">
+          <h4 class="info-title">Nearby Attractions</h4>
+          <ul class="attractions-list">
+            <li>Kuruva Island — 15 mins</li>
+            <li>Banasura Sagar Dam — 45 mins</li>
+            <li>Chembra Peak — 60 mins</li>
+          </ul>
+        </div>
+
+        <div class="location-info-block">
+          <h4 class="info-title">Travel Information</h4>
+          <p class="info-desc">Calicut International Airport (CCJ) is approximately 2.5 hours by private resort chauffeur.</p>
+        </div>
+
+        <a href="https://maps.google.com" target="_blank" class="btn-maps">Open in Google Maps</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA Section -->
+  <section class="final-cta-section">
+    <div class="cta-background-wrapper">
+      <img src="hero animation/frame_101.jpg" alt="Tusker Inn Resort Panorama" class="cta-bg-image">
+      <div class="cta-overlay"></div>
+    </div>
+    
+    <div class="cta-content reveal-element">
+      <h2 class="cta-title">Your Forest Escape<br>Awaits</h2>
+      <p class="cta-desc">Reconnect with silence. Reclaim peace. Begin your journey into the wild.</p>
+      
+      <div class="cta-buttons">
+        <a href="#" class="btn-primary">Reserve Your Stay</a>
+        <a href="#" class="btn-secondary">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-section">
+    <div class="footer-container">
+      
+      <!-- Column 1: Brand Info -->
+      <div class="footer-col brand-col">
+        <span class="footer-logo-title">TUSKER INN</span>
+        <span class="footer-logo-subtitle">FOREST LODGE</span>
+        <p class="footer-brand-desc">An award-winning luxury forest sanctuary in Wayanad, designed to slow down the senses and reconnect with untouched wilderness.</p>
+      </div>
+
+      <!-- Column 2: Navigation Links -->
+      <div class="footer-col links-col">
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#accommodation">Accommodation</a></li>
+          <li><a href="#experiences">Experiences</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#location">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact details & Socials -->
+      <div class="footer-col contact-col">
+        <h4 class="footer-col-title">Contact</h4>
+        <p class="footer-contact-item">+91 98765 43210</p>
+        <p class="footer-contact-item">stay@tuskerinn.com</p>
+        <p class="footer-contact-item">Wayanad, Kerala, India</p>
+        <div class="footer-socials">
+          <a href="#" class="social-link">Instagram</a>
+          <a href="#" class="social-link">Facebook</a>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="footer-bottom">
+      <p class="copyright">&copy; 2026 Tusker Inn Forest Lodge. All rights reserved.</p>
+      <p class="footer-tagline">Designed with elegance.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript Entry Point -->
+  <script src="index.js"></script>
+</body>
+</html>
