@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  let hasStarted = false;
+
   // Preload all frames
   function preloadImages() {
     for (let i = 1; i <= totalFrames; i++) {
@@ -59,12 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Update visual progress of preloading
   function updateProgress() {
+    const minFramesToStart = Math.min(25, totalFrames); // Start once 25 frames are loaded
     const percentage = Math.round((loadedCount / totalFrames) * 100);
     progressBar.style.width = `${percentage}%`;
     progressText.innerText = `${percentage}%`;
 
-    if (loadedCount === totalFrames) {
-      setTimeout(startExperience, 600); // Elegant delay after completion
+    // Start experience early once critical frames are loaded, to eliminate user wait delays
+    if (!hasStarted && loadedCount >= minFramesToStart && images[0] && images[0].complete) {
+      hasStarted = true;
+      setTimeout(startExperience, 400);
     }
   }
 
@@ -86,8 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
   function drawFrame(index) {
     if (index === lastDrawnIndex) return; // Prevent redundant draws
     
-    const img = images[index - 1];
-    if (!img || !img.complete) return;
+    // Find closest loaded image if the requested one is not complete
+    let img = images[index - 1];
+    if (!img || !img.complete || img.naturalWidth === 0) {
+      let found = false;
+      for (let offset = 1; offset < totalFrames; offset++) {
+        const prevIdx = index - 1 - offset;
+        const nextIdx = index - 1 + offset;
+        
+        if (prevIdx >= 0 && images[prevIdx] && images[prevIdx].complete && images[prevIdx].naturalWidth > 0) {
+          img = images[prevIdx];
+          found = true;
+          break;
+        }
+        if (nextIdx < totalFrames && images[nextIdx] && images[nextIdx].complete && images[nextIdx].naturalWidth > 0) {
+          img = images[nextIdx];
+          found = true;
+          break;
+        }
+      }
+      if (!found) return; // No frames loaded at all
+    }
 
     const cw = canvas.width;
     const ch = canvas.height;
@@ -110,7 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Dynamic canvas sizing matching window dimensions and pixel ratio
   function resizeCanvas() {
-    const scale = window.devicePixelRatio || 1;
+    // Limit pixel ratio to 2 on high-dpi screens to prevent mobile canvas drawing lag
+    const scale = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = window.innerWidth * scale;
     canvas.height = window.innerHeight * scale;
     drawFrame(Math.round(currentFrameIndex));
