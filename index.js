@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress();
         // Redraw current frame to swap low-res or blank fallbacks with the high-res file
         if (!isAnimating && hasStarted) {
-          drawFrame(Math.round(currentFrameIndex));
+          drawFrame(Math.round(currentFrameIndex), true);
         }
       };
       img.onerror = () => {
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadedCount++;
         updateProgress();
         if (!isAnimating && hasStarted) {
-          drawFrame(Math.round(currentFrameIndex));
+          drawFrame(Math.round(currentFrameIndex), true);
         }
       };
       images.push(img);
@@ -103,10 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Handle aspect-ratio cover layout on Canvas (object-fit: cover behavior)
-  function drawFrame(index) {
-    if (index === lastDrawnIndex) return; // Prevent redundant draws
+  function drawFrame(index, forceRedraw = false) {
+    if (!forceRedraw && index === lastDrawnIndex) return; // Prevent redundant draws
     
     // Find closest loaded image if the requested one is not complete
+    let isFallback = false;
     let img = images[index - 1];
     if (!img || !img.complete || img.naturalWidth === 0) {
       let found = false;
@@ -117,11 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prevIdx >= 0 && images[prevIdx] && images[prevIdx].complete && images[prevIdx].naturalWidth > 0) {
           img = images[prevIdx];
           found = true;
+          isFallback = true;
           break;
         }
         if (nextIdx < totalFrames && images[nextIdx] && images[nextIdx].complete && images[nextIdx].naturalWidth > 0) {
           img = images[nextIdx];
           found = true;
+          isFallback = true;
           break;
         }
       }
@@ -149,10 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const y = (ch - sh) / 2;
 
     // Clear and draw
+    ctx.imageSmoothingQuality = 'high'; // Enforce high quality bicubic interpolation
     ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, x, y, sw, sh);
     
-    lastDrawnIndex = index;
+    // Only cache lastDrawnIndex if we drew the actual requested frame (not a fallback!)
+    if (!isFallback) {
+      lastDrawnIndex = index;
+    } else {
+      // Clear lastDrawnIndex so that once the correct image loads, it is allowed to redraw it
+      lastDrawnIndex = -1;
+    }
   }
 
   // Dynamic canvas sizing matching window dimensions and pixel ratio
