@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Preload all frames
   function preloadImages() {
+    console.log("[Tusker Inn] Preloading frames. Mode:", isMobile ? "Mobile Responsive" : "Desktop", "Total frames:", totalFrames, "Start path:", getFramePath(1));
     for (let i = 1; i <= totalFrames; i++) {
       const img = new Image();
       img.src = getFramePath(i);
