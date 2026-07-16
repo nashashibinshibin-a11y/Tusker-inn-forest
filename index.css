@@ -180,6 +180,8 @@ a {
   object-fit: cover;
   z-index: 1;
   background-color: var(--deep-charcoal);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 /* --------------------------------------------------------------------------
