@@ -170,8 +170,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Dynamic canvas sizing matching window dimensions and pixel ratio
-  let lastWidth = window.innerWidth;
-  let lastHeight = window.innerHeight;
+  let lastWidth = 0;
+  let lastHeight = 0;
 
   function resizeCanvas() {
     const widthChanged = window.innerWidth !== lastWidth;
