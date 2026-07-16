@@ -15,8 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrollTrack = document.querySelector('.scroll-track');
   const navbar = document.querySelector('.navbar');
 
-  // Animation configuration
-  const isMobile = window.innerWidth <= 1024 || window.innerHeight > window.innerWidth;
+  // Animation configuration: use robust media query and touch checks to bypass mobile viewport race conditions on load
+  const isMobile = window.matchMedia("(max-width: 1024px)").matches || 
+                   window.matchMedia("(orientation: portrait)").matches || 
+                   ('ontouchstart' in window) || 
+                   (navigator.maxTouchPoints > 0);
   const totalFrames = isMobile ? 107 : 102;
   const images = [];
   let loadedCount = 0;
@@ -134,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const cw = canvas.width;
     const ch = canvas.height;
-    const iw = img.width;
-    const ih = img.height;
+    const iw = img.naturalWidth;
+    const ih = img.naturalHeight;
 
     // Clear and draw
     ctx.clearRect(0, 0, cw, ch);
