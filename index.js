@@ -136,31 +136,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const iw = img.width;
     const ih = img.height;
 
-    // Calculate scaling: desktop uses cover, mobile uses contain to prevent dynamic cropping/zoom
-    let scale;
-    if (isMobile) {
-      scale = Math.min(cw / iw, ch / ih);
-      if (scale > 1) {
-        scale = 1; // Display every frame at its native size without upscaling zoom
-      }
-    } else {
-      scale = Math.max(cw / iw, ch / ih);
-    }
-    const sw = iw * scale;
-    const sh = ih * scale;
-    const x = (cw - sw) / 2;
-    const y = (ch - sh) / 2;
-
     // Clear and draw
-    ctx.imageSmoothingQuality = 'high'; // Enforce high quality bicubic interpolation
+    ctx.imageSmoothingEnabled = false; // Disable image smoothing to maintain absolute pixel-sharp frames
     ctx.clearRect(0, 0, cw, ch);
-    ctx.drawImage(img, x, y, sw, sh);
+
+    if (isMobile) {
+      // Mobile: Render 1080x1920 portrait frames exactly 1:1 at native size
+      ctx.drawImage(img, 0, 0, cw, ch);
+    } else {
+      // Desktop: Fill canvas and center layout preserving aspect ratio
+      const scale = Math.max(cw / iw, ch / ih);
+      const sw = iw * scale;
+      const sh = ih * scale;
+      const x = (cw - sw) / 2;
+      const y = (ch - sh) / 2;
+      ctx.drawImage(img, x, y, sw, sh);
+    }
     
     // Only cache lastDrawnIndex if we drew the actual requested frame (not a fallback!)
     if (!isFallback) {
       lastDrawnIndex = index;
     } else {
-      // Clear lastDrawnIndex so that once the correct image loads, it is allowed to redraw it
       lastDrawnIndex = -1;
     }
   }
@@ -181,10 +177,17 @@ document.addEventListener('DOMContentLoaded', () => {
     lastWidth = window.innerWidth;
     lastHeight = window.innerHeight;
 
-    // Use full device pixel ratio to match the crisp desktop rendering quality
-    const scale = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * scale;
-    canvas.height = window.innerHeight * scale;
+    if (isMobile) {
+      // Mobile: Size canvas backing store exactly to the frame native resolution (1080x1920)
+      canvas.width = 1080;
+      canvas.height = 1920;
+    } else {
+      // Desktop: Scale canvas based on window dimensions and device pixel ratio
+      const scale = window.devicePixelRatio || 1;
+      canvas.width = window.innerWidth * scale;
+      canvas.height = window.innerHeight * scale;
+    }
+    
     drawFrame(Math.round(currentFrameIndex));
   }
 
