@@ -48,12 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
       img.onload = () => {
         loadedCount++;
         updateProgress();
+        // Redraw current frame to swap low-res or blank fallbacks with the high-res file
+        if (!isAnimating && hasStarted) {
+          drawFrame(Math.round(currentFrameIndex));
+        }
       };
       img.onerror = () => {
         console.error(`Failed to load frame: ${img.src}`);
         // Increment anyway to prevent preloader from getting stuck
         loadedCount++;
         updateProgress();
+        if (!isAnimating && hasStarted) {
+          drawFrame(Math.round(currentFrameIndex));
+        }
       };
       images.push(img);
     }
@@ -78,6 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
     preloader.classList.add('fade-out');
     document.body.style.overflow = 'auto'; // Re-enable scroll
     
+    // Prevent layout shift on mobile toolbars height resize: Lock sticky container height to absolute pixels
+    if (isMobile) {
+      const stickyContainer = document.querySelector('.sticky-container');
+      if (stickyContainer) {
+        stickyContainer.style.height = `${window.innerHeight}px`;
+      }
+    }
+
     // Initial draw and canvas sizing
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -133,7 +148,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Dynamic canvas sizing matching window dimensions and pixel ratio
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+
   function resizeCanvas() {
+    const widthChanged = window.innerWidth !== lastWidth;
+    const heightChanged = window.innerHeight !== lastHeight;
+
+    // Ignore height changes caused by collapsible toolbar on mobile scrolling
+    if (isMobile && !widthChanged && Math.abs(window.innerHeight - lastHeight) < 120) {
+      return;
+    }
+
+    lastWidth = window.innerWidth;
+    lastHeight = window.innerHeight;
+
     // Limit pixel ratio to 2 on high-dpi screens to prevent mobile canvas drawing lag
     const scale = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = window.innerWidth * scale;
