@@ -180,6 +180,17 @@ a {
   object-fit: cover;
   z-index: 1;
   background-color: var(--deep-charcoal);
+  background-image: url('hero%20animation/frame_001.jpg?v=1');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 1024px) {
+  #hero-canvas {
+    background-image: url('Mobile%20responsive/frame_001.jpg?v=1');
+    background-size: contain;
+  }
 }
 
 /* --------------------------------------------------------------------------

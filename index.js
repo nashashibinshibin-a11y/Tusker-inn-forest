@@ -104,6 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initial scroll check
     handleScroll();
+
+    // WebKit GPU/Layout settled redraw: ensure the first frame is painted even if Safari's first context paint skipped
+    setTimeout(() => {
+      drawFrame(1, true);
+    }, 100);
   }
 
   // Handle aspect-ratio cover layout on Canvas (object-fit: cover behavior)
