@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getFramePath(index) {
     const paddedIndex = String(index).padStart(3, '0');
     if (isMobile) {
-      return `hero animation/mobile responsive/frame_${paddedIndex}.jpg`;
+      return `Mobile responsive/frame_${paddedIndex}.jpg`;
     } else {
       return `hero animation/frame_${paddedIndex}.jpg`;
     }
