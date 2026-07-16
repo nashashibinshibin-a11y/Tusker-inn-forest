@@ -658,7 +658,7 @@ a {
    -------------------------------------------------------------------------- */
 .about-section {
   background-color: #141715; /* Deep Forest Green */
-  padding: 220px 5rem; /* Exact padding as requested */
+  padding: 80px 5rem 220px 5rem; /* Reduced top padding to 80px to close empty black gap */
   position: relative;
   z-index: 5;
   overflow: hidden;
@@ -1801,6 +1801,9 @@ a {
   .location-section {
     padding: 120px 0;
   }
+  .about-section {
+    padding: 40px 5rem 120px 5rem;
+  }
   .room-block,
   .dining-block {
     gap: 3rem;
@@ -1925,13 +1928,17 @@ a {
   }
   
   /* Section Spacings & Paddings */
-  .about-section,
   .accommodation-section,
+  .dining-section,
   .experiences-section,
   .gallery-section,
   .testimonials-section,
   .location-section {
     padding: 100px 0; /* Premium mobile vertical padding */
+  }
+  
+  .about-section {
+    padding: 40px 1.5rem 100px 1.5rem; /* Reduced top padding to 40px to close mobile black gap */
   }
   
   .section-container {
