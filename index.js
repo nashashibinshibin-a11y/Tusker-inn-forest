@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lastWidth = window.innerWidth;
     lastHeight = window.innerHeight;
 
-    // Limit pixel ratio to 2 on high-dpi screens to prevent mobile canvas drawing lag
-    const scale = Math.min(2, window.devicePixelRatio || 1);
+    // Use full device pixel ratio to match the crisp desktop rendering quality
+    const scale = window.devicePixelRatio || 1;
     canvas.width = window.innerWidth * scale;
     canvas.height = window.innerHeight * scale;
     drawFrame(Math.round(currentFrameIndex));
