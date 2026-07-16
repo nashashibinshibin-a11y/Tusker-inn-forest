@@ -327,8 +327,48 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Trigger preloader initialization
+  // Initialize Lightbox Modal for Gallery
+  function initLightbox() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+
+    if (!lightbox || !lightboxImg) return;
+
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const src = item.getAttribute('data-src');
+        const caption = item.getAttribute('data-caption');
+        
+        lightboxImg.src = src;
+        lightboxCaption.textContent = caption || '';
+        
+        lightbox.classList.add('open');
+        document.body.classList.add('drawer-open'); // Prevent background scrolling
+      });
+    });
+
+    // Close lightbox on clicking outside container or close button
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+        lightbox.classList.remove('open');
+        document.body.classList.remove('drawer-open');
+      }
+    });
+
+    // Escape key press closes lightbox
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+        lightbox.classList.remove('open');
+        document.body.classList.remove('drawer-open');
+      }
+    });
+  }
+
+  // Trigger initializations
   preloadImages();
   initScrollReveal();
   initMobileDrawer();
+  initLightbox();
 });
