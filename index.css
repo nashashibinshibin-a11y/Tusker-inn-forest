@@ -2374,3 +2374,127 @@ body.drawer-open {
 .btn-maps:hover {
   transform: translateY(-2px);
 }
+
+/* --------------------------------------------------------------------------
+   22. Premium Design & Hover Improvements (Rest of Sections)
+   -------------------------------------------------------------------------- */
+
+/* Sequential Staggered Reveals on Scroll */
+.rooms-showcase.revealed .room-block:nth-child(1) { transition-delay: 0.15s; }
+.rooms-showcase.revealed .room-block:nth-child(2) { transition-delay: 0.35s; }
+
+.dining-showcase.revealed .dining-block:nth-child(1) { transition-delay: 0.15s; }
+.dining-showcase.revealed .dining-block:nth-child(2) { transition-delay: 0.35s; }
+
+.experiences-grid.revealed .experience-card:nth-child(1) { transition-delay: 0.15s; }
+.experiences-grid.revealed .experience-card:nth-child(2) { transition-delay: 0.3s; }
+.experiences-grid.revealed .experience-card:nth-child(3) { transition-delay: 0.45s; }
+
+.gallery-grid.revealed .gallery-item:nth-child(1) { transition-delay: 0.1s; }
+.gallery-grid.revealed .gallery-item:nth-child(2) { transition-delay: 0.2s; }
+.gallery-grid.revealed .gallery-item:nth-child(3) { transition-delay: 0.3s; }
+.gallery-grid.revealed .gallery-item:nth-child(4) { transition-delay: 0.4s; }
+.gallery-grid.revealed .gallery-item:nth-child(5) { transition-delay: 0.5s; }
+.gallery-grid.revealed .gallery-item:nth-child(6) { transition-delay: 0.6s; }
+
+.testimonials-grid.revealed .testimonial-card:nth-child(1) { transition-delay: 0.15s; }
+.testimonials-grid.revealed .testimonial-card:nth-child(2) { transition-delay: 0.3s; }
+.testimonials-grid.revealed .testimonial-card:nth-child(3) { transition-delay: 0.45s; }
+
+/* Room, Dining & Experience Cards Hover Lifting and Ambient Gold Glow */
+.room-image-wrapper, 
+.dining-image-wrapper {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.room-image-wrapper:hover, 
+.dining-image-wrapper:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 20px 45px rgba(212, 175, 55, 0.08), 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Experiences subtle lift */
+.experience-card {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.experience-card:hover {
+  transform: translateY(-8px);
+}
+
+.experience-card.shift-up:hover {
+  transform: translateY(52px); /* Offsets translateY(60px) desktop shift-up by -8px */
+}
+
+/* Premium Link Micro-Underline Transitions */
+.room-link, 
+.experience-link {
+  position: relative;
+  padding-bottom: 6px;
+  overflow: hidden;
+}
+
+.room-link::after, 
+.experience-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background-color: var(--soft-gold);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.room-link:hover::after, 
+.experience-link:hover::after {
+  width: 100%;
+}
+
+/* Testimonial Cards: Gold Top Border Shift on Hover */
+.testimonial-card {
+  border-top: 2px solid transparent;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.6s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-6px);
+  border-top-color: var(--soft-gold);
+  box-shadow: 0 15px 35px rgba(212, 175, 55, 0.04), 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Location Blocks Hover Offset */
+.location-info-block {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.location-info-block:hover {
+  transform: translateX(8px);
+}
+
+.location-info-block .info-title {
+  transition: color 0.3s ease;
+}
+
+.location-info-block:hover .info-title {
+  color: var(--soft-gold);
+}
+
+/* Booking CTA Buttons Zoom lifts */
+.final-cta-section .btn-primary,
+.final-cta-section .btn-secondary {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.3s ease, 
+              border-color 0.3s ease, 
+              color 0.3s ease;
+}
+
+.final-cta-section .btn-primary:hover,
+.final-cta-section .btn-secondary:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
