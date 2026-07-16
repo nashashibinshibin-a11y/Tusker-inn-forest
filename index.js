@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.querySelector('.navbar');
 
   // Animation configuration
-  const isMobile = window.innerWidth <= 768;
+  const isMobile = window.innerWidth <= 1024 || window.innerHeight > window.innerWidth;
   const totalFrames = isMobile ? 107 : 102;
   const images = [];
   let loadedCount = 0;
@@ -133,8 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const iw = img.width;
     const ih = img.height;
 
-    // Calculate scaling to fill screen while preserving aspect ratio
-    const scale = Math.max(cw / iw, ch / ih);
+    // Calculate scaling: desktop uses cover, mobile uses contain to prevent dynamic cropping/zoom
+    let scale;
+    if (isMobile) {
+      scale = Math.min(cw / iw, ch / ih);
+      if (scale > 1) {
+        scale = 1; // Display every frame at its native size without upscaling zoom
+      }
+    } else {
+      scale = Math.max(cw / iw, ch / ih);
+    }
     const sw = iw * scale;
     const sh = ih * scale;
     const x = (cw - sw) / 2;
